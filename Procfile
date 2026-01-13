@@ -1,0 +1,1 @@
+web: gunicorn bird_watch.wsgi
