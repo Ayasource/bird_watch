@@ -1,1 +1,1 @@
-web: gunicorn bird_watch.wsgi
+web: gunicorn config.wsgi
