@@ -1,32 +1,33 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from .models import Post
+from .models import Bird
 
-# Create your views here.
-class PostList(generic.ListView):
-    queryset = Post.objects.filter(status=1)
-    template_name = "bird_watch_post/index.html"
+
+class BirdEntry(generic.ListView):
+    queryset = Bird.objects.filter(status=1)
+    template_name = "bird_watch_post/bird_entry.html"
     paginate_by = 1
 
-def post_detail(request, slug):
+
+def bird_detail(request, slug):
     """
-    Display an individual :model:`bird_watch.Post`.
+    Display an individual :model:`bird_watch.Bird`.
 
     **Context**
 
     ``post``
-        An instance of :model:`bird_watch.Post`.
+        An instance of :model:`bird_watch.Bird`.
 
     **Template:**
 
-    :template:`bird_watch/post_detail.html`
+    :template:`bird_watch/bird_entry.html`
     """
 
-    queryset = Post.objects.filter(status=1)
+    queryset = Bird.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
 
     return render(
         request,
-        "bird_watch/post_detail.html",
-        {"post": post},
+        "bird_watch/bird_entry.html",
+        {"bird": post},
     )
