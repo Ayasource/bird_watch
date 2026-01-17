@@ -5,11 +5,11 @@ from .models import Bird
 
 class BirdEntry(generic.ListView):
     queryset = Bird.objects.filter(status=1)
-    template_name = "bird_watch_post/bird_entry.html"
+    template_name = "bird_watch_post/index.html"
     paginate_by = 1
 
 
-def bird_detail(request, slug):
+def bird_entry(request, slug):
     """
     Display an individual :model:`bird_watch.Bird`.
 
