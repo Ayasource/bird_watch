@@ -1,6 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 from .models import Bird
+from .forms import EntryForm
 
 
 class BirdEntry(generic.ListView):
@@ -31,3 +34,26 @@ def bird_entry(request, slug):
         "bird_watch/bird_entry.html",
         {"bird": post},
     )
+
+
+def entry_edit(request, slug, entry_id):
+    """
+    view to edit entries
+    """
+    if request.method == "POST":
+
+        queryset = Bird.objects.filter(status=1)
+        post = get_object_or_404(queryset, slug=slug)
+        entry = get_object_or_404(Bird, pk=entry_id)
+        entry_form = EntryForm(data=request.POST, instance=entry)
+
+        if entry_form.is_valid() and entry.user == request.user:
+            entry = entry_form.save(commit=False)
+            entry.post = post
+            entry.approved = False
+            entry.save()
+            messages.add_message(request, messages.SUCCESS, 'Bird Entry Updated!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error updating Bird Entry!')
+
+    return HttpResponseRedirect(reverse('bird_entry', args=[slug]))
