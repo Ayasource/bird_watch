@@ -2,7 +2,7 @@
   {% endif %}
    {% if user.is_authenticated and comment.author == user %}
   <button class="btn btn-edit"
-    comment_id="{{ comment.id }}">Edit</button>
+    entry_id="{{ entry.id }}">Edit</button>
   {% endif %}
 </div>
 
