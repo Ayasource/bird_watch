@@ -1,6 +1,6 @@
  <p class="approval">This comment is awaiting approval</p>
   {% endif %}
-   {% if user.is_authenticated and comment.author == user %}
+   {% if user.is_authenticated and entry.user == user %}
   <button class="btn btn-edit"
     entry_id="{{ entry.id }}">Edit</button>
   {% endif %}
@@ -9,3 +9,9 @@
 {% endfor %}
 
 {% if user.is_authenticated %}
+
+{% endblock content %}
+
+{% block extras %}
+<script src="{% static 'js/entries.js' %}"></script>
+{% endblock %}

@@ -57,3 +57,19 @@ def entry_edit(request, slug, entry_id):
             messages.add_message(request, messages.ERROR, 'Error updating Bird Entry!')
 
     return HttpResponseRedirect(reverse('bird_entry', args=[slug]))
+
+
+def entry_delete(request, slug, entry_id):
+    """
+    view to delete entries
+    """
+    queryset = Bird.objects.filter(status=1)
+    post = get_object_or_404(queryset, slug=slug)
+    entry = get_object_or_404(Bird, pk=entry_id)
+
+    if entry.user == request.user:
+        entry.delete()
+        messages.add_message(request, messages.SUCCESS, 'Entry deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'You can only delete your own entries!')
+    return HttpResponseRedirect(reverse('bird_entry', args=[slug]))
