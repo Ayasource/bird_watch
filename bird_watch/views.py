@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
 from django.contrib import messages
@@ -7,7 +8,9 @@ from .forms import EntryForm
 
 
 class BirdEntry(generic.ListView):
+    model = Bird
     queryset = Bird.objects.filter(status=1)
+    context_object_name = "birds"
     template_name = "bird_watch_post/index.html"
     paginate_by = 6
 
@@ -26,14 +29,8 @@ def bird_entry(request, slug):
     :template:`bird_watch/bird_entry.html`
     """
 
-    queryset = Bird.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
-
-    return render(
-        request,
-        "bird_watch/bird_entry.html",
-        {"bird": post},
-    )
+    bird = get_object_or_404(Bird.objects.filter(status=1), slug=slug)
+    return render(request, "bird_list.html", {"birds": bird},)
 
 
 def entry_edit(request, slug, entry_id):
@@ -49,7 +46,7 @@ def entry_edit(request, slug, entry_id):
 
         if entry_form.is_valid() and entry.created_by == request.user:
             entry = entry_form.save(commit=False)
-            entry.post = post
+            entry.bird = post
             entry.approved = False
             entry.save()
             messages.add_message(request, messages.SUCCESS, 'Bird Entry Updated!')

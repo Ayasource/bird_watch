@@ -1,4 +1,5 @@
- {% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -89,5 +90,9 @@
         </div>
     </div>
 </div>
+
+<h1>{{ bird.bird_name }}</h1>
+<p>Seen by {{ bird.created_by }} on {{ bird.date }}</p>
+<p>Count: {{ bird.bird_count }}</p>
 
 {% endblock content %}
