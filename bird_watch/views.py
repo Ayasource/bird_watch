@@ -9,7 +9,7 @@ from .forms import EntryForm
 class BirdEntry(generic.ListView):
     queryset = Bird.objects.filter(status=1)
     template_name = "bird_watch_post/index.html"
-    paginate_by = 1
+    paginate_by = 6
 
 
 def bird_entry(request, slug):
@@ -47,7 +47,7 @@ def entry_edit(request, slug, entry_id):
         entry = get_object_or_404(Bird, pk=entry_id)
         entry_form = EntryForm(data=request.POST, instance=entry)
 
-        if entry_form.is_valid() and entry.user == request.user:
+        if entry_form.is_valid() and entry.created_by == request.user:
             entry = entry_form.save(commit=False)
             entry.post = post
             entry.approved = False
@@ -64,10 +64,10 @@ def entry_delete(request, slug, entry_id):
     view to delete entries
     """
     queryset = Bird.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
+    entry = get_object_or_404(queryset, slug=slug)
     entry = get_object_or_404(Bird, pk=entry_id)
 
-    if entry.user == request.user:
+    if entry.created_by == request.user:
         entry.delete()
         messages.add_message(request, messages.SUCCESS, 'Entry deleted!')
     else:
