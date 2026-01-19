@@ -15,7 +15,7 @@
                         <div class="card-body">
                             <div class="image-container">
                                 <div class="image-flash">
-                                    <p class="creator">Creator: {{ bird.created_by }}</p>
+                                    <p class="creator">Bird Counted: {{ bird.bird_count }}</p>
                                 </div>
                             </div>
                             <a href="{% url 'bird_entry' bird.slug %}" class="entry-link">
