@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ user.username }}'s Bird Watch Profile</h1>
+
+<h2>My Entries</h2>
+{% for entry in user_entries %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ entry.bird.bird_name }}</h5>
+            <p class="card-text">{{ entry.body }}</p>
+            <p>Count: {{ entry.bird_count }}</p>
+            <small>{{ entry.created_on }}</small>
+        </div>
+    </div>
+{% empty %}
+    <p>No entries yet.</p>
+{% endfor %}
+
+{% endblock %}

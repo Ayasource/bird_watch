@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row g-0">
             <div class="col-md-6 masthead-text">
-                <!-- Post title goes in these h1 tags -->
+                <!-- Bird title goes in these h1 tags -->
                 <h1>{{ bird.bird_name }}</h1>
                 <p>Seen by {{ bird.created_by }} on {{ bird.date }}</p>
                 <p>Count: {{ bird.bird_count }}</p>
@@ -18,7 +18,15 @@
         </div>
     </div>
 </div>
-
+{% if user.is_authenticated and user == bird.created_by %}
+<div class="mb-3">
+    <a class="btn btn-outline-primary" href="{% url 'bird_edit' bird.slug %}">Edit</a>
+    <form method="post" action="{% url 'bird_delete' bird.slug %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+    </form>
+</div>
+{% endif %}
 <div class="container">
     <div class="row">
         <div class="col card mb-4  mt-3 left  top">
@@ -44,15 +52,14 @@
     </div>
     <!-- Displaying Entries -->
     <div class="row">
-        <div class="col-md-8 card mb-4  mt-3 ">
+        <div class="col-md-8 card mb-4 mt-3">
             <h3>Entries:</h3>
             <div class="card-body">
                 <!-- We want a for loop inside the empty control tags
           to iterate through each entry in entries -->
                 {% for entry in entries %}
-                <div class="p-2 comments
-          {% if not entry.approved and entry.user == user %}
-          faded{% elif not entry.approved %} d-none{% endif %}">
+                <div
+                    class="p-2 comments {% if not entry.approved and entry.user == user %}faded{% elif not entry.approved %} d-none{% endif %}">
                     <p class="font-weight-bold">
                         {{ entry.user }}
                         <span class="font-weight-normal">
@@ -72,15 +79,16 @@
                 {% endfor %}
             </div>
         </div>
-        <!-- Creating New Entries -->
+
+        <!-- Creating New Bird (only if logged in) -->
         <div class="col-md-4 card mb-4 mt-3">
             <div class="card-body">
                 {% if user.is_authenticated %}
-                <h3>Add a bird entry:</h3>
+                <h3>Add a bird</h3>
                 <p>Posting as: {{ user.username }}</p>
-                <form id="entryForm" method="post" style="margin-top: 1.3em;">
-                    {{ entry_form | crispy }}
+                <form id="birdForm" method="post" style="margin-top: 1.3em;">
                     {% csrf_token %}
+                    {{ bird_form | crispy }}
                     <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
                 </form>
                 {% else %}

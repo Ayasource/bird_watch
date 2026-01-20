@@ -23,7 +23,7 @@ class Bird(models.Model):
 
 class Entry(models.Model):
     bird = models.ForeignKey(Bird, on_delete=models.CASCADE, related_name="entries")
-    body = models.TextField()
+    body = models.CharField(max_length=200)
     bird_count = models.PositiveIntegerField(default=1)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="entries")
     created_on = models.DateTimeField(auto_now_add=True)

@@ -4,9 +4,11 @@ from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from requests import post
-from .models import Bird
-from .forms import EntryForm
+from .models import Bird, Entry
+from .forms import BirdForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.text import slugify
 
 
 class BirdEntry(generic.ListView):
@@ -20,6 +22,20 @@ class BirdEntry(generic.ListView):
 def profile_page(request):
     user = get_object_or_404(User, user=request.user)
     entries = user.creator.all()
+
+
+@login_required
+def user_profile(request):
+    """
+    Display all entries for the logged-in user
+    """
+    user_entries = Entry.objects.filter(created_by=request.user)
+    user_birds = Bird.objects.filter(created_by=request.user)
+
+    return render(request, "bird_watch_post/profile.html", {
+        "user_entries": user_entries,
+        "user_birds": user_birds
+    })
 
 
 def bird_entry(request, slug):
@@ -37,21 +53,26 @@ def bird_entry(request, slug):
     """
 
     bird = get_object_or_404(Bird.objects.filter(status=1), slug=slug)
-    entry_count = bird.entries.filter(approved=True).count()
-    entry_form = EntryForm()
+    entries = bird.entries.filter(approved=True)
+    entry_count = entries.count()
+    bird_form = BirdForm()
 
     if request.method == "POST":
-        print("Received a POST request")
-        entry_form = EntryForm(data=request.POST)
-        if entry_form.is_valid():
-            entry = entry_form.save(commit=False)
-            entry.created_by = request.user
-            entry.bird = bird
-            entry.save()
-            messages.add_message(request, messages.SUCCESS, 'Entry submitted and awaiting approval')
-            entry_form = EntryForm()
-        print("About to render template")
-    return render(request, "bird_watch_post/bird_entry.html", {"bird": bird, "entry_form": entry_form},)
+        bird_form = BirdForm(data=request.POST)
+        if bird_form.is_valid():
+            new_bird = bird_form.save(commit=False)
+            new_bird.created_by = request.user
+            new_bird.slug = slugify(new_bird.bird_name)
+            new_bird.save()
+            messages.add_message(request, messages.SUCCESS, 'Bird added successfully!')
+            bird_form = BirdForm()
+
+    return render(request, "bird_watch_post/bird_entry.html", {
+        "bird": bird,
+        "bird_form": bird_form,
+        "entries": entries,
+        "entry_count": entry_count,
+    })
 
 
 def entry_edit(request, slug, entry_id):
@@ -91,3 +112,53 @@ def entry_delete(request, slug, entry_id):
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own entries!')
     return HttpResponseRedirect(reverse('bird_entry', args=[slug]))
+
+
+@login_required
+def add_bird(request):
+    """
+    Allow users to add a new bird sighting
+    """
+    if request.method == "POST":
+        bird_form = BirdForm(data=request.POST)
+        if bird_form.is_valid():
+            bird = bird_form.save(commit=False)
+            bird.created_by = request.user
+            bird.slug = slugify(bird.bird_name)
+            bird.save()
+            messages.add_message(request, messages.SUCCESS, 'Bird added successfully!')
+            return HttpResponseRedirect(reverse('home'))
+    else:
+        bird_form = BirdForm()
+ 
+    return render(request, "bird_watch_post/add_bird.html", {"bird_form": bird_form})
+
+
+@login_required
+def bird_edit(request, slug):
+    bird = get_object_or_404(Bird, slug=slug, created_by=request.user)
+    if request.method == "POST":
+        form = BirdForm(request.POST, instance=bird)
+        if form.is_valid():
+            updated = form.save(commit=False)
+            updated.slug = slugify(updated.bird_name)
+            updated.save()
+            messages.success(request, "Bird updated.")
+            return HttpResponseRedirect(reverse("bird_entry", args=[updated.slug]))
+    else:
+        form = BirdForm(instance=bird)
+
+    return render(request, "bird_watch_post/edit_bird.html", {
+        "bird": bird,
+        "bird_form": form,
+    })
+
+
+@login_required
+def bird_delete(request, slug):
+    bird = get_object_or_404(Bird, slug=slug, created_by=request.user)
+    if request.method == "POST":
+        bird.delete()
+        messages.success(request, "Bird deleted.")
+        return HttpResponseRedirect(reverse("home"))
+    return render(request, "bird_watch_post/delete_bird.html", {"bird": bird})
