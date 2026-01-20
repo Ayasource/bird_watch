@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from requests import post
 from .models import Bird
 from .forms import EntryForm
 
@@ -30,7 +31,18 @@ def bird_entry(request, slug):
     """
 
     bird = get_object_or_404(Bird.objects.filter(status=1), slug=slug)
-    return render(request, "bird_list.html", {"birds": bird},)
+    entry_count = bird.entries.filter(approved=True).count()
+  
+    if request.method == "POST":
+        entry_form = EntryForm(data=request.POST)
+        if entry_form.is_valid():
+            entry = entry_form.save(commit=False)
+            entry.created_by = request.user
+            entry.bird = bird
+            entry.save()
+            messages.add_message(request, messages.SUCCESS, 'Entry submitted and awaiting approval')
+    entry_form = EntryForm()
+    return render(request, "bird_list.html", {"birds": bird, "entry_form": entry_form},)
 
 
 def entry_edit(request, slug, entry_id):

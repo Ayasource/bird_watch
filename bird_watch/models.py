@@ -5,8 +5,8 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 
 class Bird(models.Model):
-    bird_name = models.CharField(max_length=200, unique=True)
-    slug = models.SlugField(max_length=200, unique=True)
+    bird_name = models.CharField(max_length=200, null=False, blank=False)
+    slug = models.SlugField(max_length=200, unique=False)
     date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bird_watch_entries")
     created_on = models.DateTimeField(auto_now_add=True)
