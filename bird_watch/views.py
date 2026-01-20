@@ -38,6 +38,7 @@ def bird_entry(request, slug):
 
     bird = get_object_or_404(Bird.objects.filter(status=1), slug=slug)
     entry_count = bird.entries.filter(approved=True).count()
+    entry_form = EntryForm()
 
     if request.method == "POST":
         print("Received a POST request")
@@ -48,9 +49,9 @@ def bird_entry(request, slug):
             entry.bird = bird
             entry.save()
             messages.add_message(request, messages.SUCCESS, 'Entry submitted and awaiting approval')
-        entry_form = EntryForm()
+            entry_form = EntryForm()
         print("About to render template")
-    return render(request, "bird_list.html", {"birds": bird, "entry_form": entry_form},)
+    return render(request, "bird_watch_post/bird_entry.html", {"bird": bird, "entry_form": entry_form},)
 
 
 def entry_edit(request, slug, entry_id):
