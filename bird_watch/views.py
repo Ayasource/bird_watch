@@ -24,21 +24,13 @@ def profile_page(request):
     entries = user.creator.all()
 
 
+@login_required
 def bird_entry(request, slug):
     """
-    Display an individual :model:`bird_watch.Bird`.
-
-    **Context**
-
-    ``post``
-        An instance of :model:`bird_watch.Bird`.
-
-    **Template:**
-
-    :template:`bird_watch/bird_entry.html`
+    Display an individual bird - only if user owns it
     """
 
-    bird = get_object_or_404(Bird.objects.filter(status=1), slug=slug)
+    bird = get_object_or_404(Bird, slug=slug, created_by=request.user)
     entries = bird.entries.filter(approved=True)
     entry_count = entries.count()
     bird_form = BirdForm()
@@ -60,6 +52,7 @@ def bird_entry(request, slug):
         "entry_count": entry_count,
     })
 
+
 @login_required
 def user_profile(request):
     """
@@ -72,6 +65,7 @@ def user_profile(request):
         "user_entries": user_entries,
         "user_birds": user_birds
     })
+
 
 @login_required
 def add_bird(request):
@@ -128,3 +122,14 @@ def home_page(request):
     Display the static home page
     """
     return render(request, "bird_watch_post/home.html")
+
+
+@login_required
+def user_bird_list(request):
+    """
+    Display only the logged-in user's birds
+    """
+    user_birds = Bird.objects.filter(created_by=request.user)
+    return render(request, "bird_watch_post/index.html", {
+        "birds": user_birds
+    })
