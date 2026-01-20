@@ -121,3 +121,10 @@ def bird_delete(request, slug):
         messages.success(request, "Bird deleted.")
         return HttpResponseRedirect(reverse("home"))
     return render(request, "bird_watch_post/delete_bird.html", {"bird": bird})
+
+
+def home_page(request):
+    """
+    Display the static home page
+    """
+    return render(request, "bird_watch_post/home.html")

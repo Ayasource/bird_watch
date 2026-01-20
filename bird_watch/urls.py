@@ -2,7 +2,8 @@ from . import views
 from django.urls import path
 
 urlpatterns = [
-    path("", views.BirdEntry.as_view(), name='home'),
+    path('home/', views.home_page, name='home'),
+    path("", views.BirdEntry.as_view(), name=''),
     path('add-bird/', views.add_bird, name='add_bird'),
     path('profile/', views.user_profile, name='profile'),
     path('<slug:slug>/', views.bird_entry, name='bird_entry'),
