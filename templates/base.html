@@ -95,10 +95,6 @@
         {% block content %}
         <!-- Content Goes here -->
         {% endblock content %}
-
-        {% if user.is_authenticated %}
-        <a href="{% url 'add_bird' %}" class="btn btn-success">Add Bird</a>
-        {% endif %}
     </main>
 
     <!-- Footer -->

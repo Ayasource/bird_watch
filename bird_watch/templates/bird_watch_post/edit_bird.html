@@ -9,7 +9,7 @@
         {% csrf_token %}
         {{ bird_form|crispy }}
         <button type="submit" class="btn btn-primary">Save</button>
-        <a href="{% url 'bird_entry' bird.slug %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
       </form>
     </div>
   </div>

@@ -3,12 +3,16 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <h1>Delete {{ bird.bird_name }}?</h1>
-      <p>This will remove the bird record and its entries.</p>
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Delete {{ bird.bird_name }}?</h4>
+        <p>Are you sure you want to delete this bird?</p>
+        <hr>
+        <p class="mb-0">This will permanently remove the bird record. This action cannot be undone.</p>
+      </div>
       <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'bird_entry' bird.slug %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
       </form>
     </div>
   </div>
