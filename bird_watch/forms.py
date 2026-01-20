@@ -1,8 +1,8 @@
-from .models import Bird
+from .models import Bird, Entry
 from django import forms
 
 
 class EntryForm(forms.ModelForm):
     class Meta:
-        model = Bird
-        fields = ['bird_name', 'bird_count']
+        model = Entry
+        fields = ['body']

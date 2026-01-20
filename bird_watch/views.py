@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from requests import post
 from .models import Bird
 from .forms import EntryForm
+from django.contrib.auth.models import User
 
 
 class BirdEntry(generic.ListView):
@@ -14,6 +15,11 @@ class BirdEntry(generic.ListView):
     context_object_name = "birds"
     template_name = "bird_watch_post/index.html"
     paginate_by = 6
+
+
+def profile_page(request):
+    user = get_object_or_404(User, user=request.user)
+    entries = user.creator.all()
 
 
 def bird_entry(request, slug):
@@ -32,8 +38,9 @@ def bird_entry(request, slug):
 
     bird = get_object_or_404(Bird.objects.filter(status=1), slug=slug)
     entry_count = bird.entries.filter(approved=True).count()
-  
+
     if request.method == "POST":
+        print("Received a POST request")
         entry_form = EntryForm(data=request.POST)
         if entry_form.is_valid():
             entry = entry_form.save(commit=False)
@@ -41,7 +48,8 @@ def bird_entry(request, slug):
             entry.bird = bird
             entry.save()
             messages.add_message(request, messages.SUCCESS, 'Entry submitted and awaiting approval')
-    entry_form = EntryForm()
+        entry_form = EntryForm()
+        print("About to render template")
     return render(request, "bird_list.html", {"birds": bird, "entry_form": entry_form},)
 
 
