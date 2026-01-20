@@ -11,33 +11,35 @@
     </div>
 
 
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Add Your Sightings</h5>
-                    <p class="card-text">Note down your bird observations.</p>
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'add_bird' %}" class="btn btn-primary">Add Bird</a>
-                    {% else %}
-                    <a href="{% url 'account_login' %}" class="btn btn-primary">Login to Add</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Your Profile</h5>
-                    <p class="card-text">View and manage your bird sighting entries.</p>
-                    {% if user.is_authenticated %}
-                    <a href="{% url 'profile' %}" class="btn btn-primary">My Profile</a>
-                    {% else %}
-                    <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
-                    {% endif %}
-                </div>
+
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Your Profile</h5>
+                <p class="card-text">Start recording your bird sightings!</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" class="btn btn-primary">Make a Profile!</a>
+                {% else %}
+                <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
+                {% endif %}
             </div>
         </div>
     </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Bird Sightings</h5>
+                <p class="card-text">Add and view bird observations.</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'add_bird' %}" class="btn btn-primary me-2">Add Bird</a>
+                <a href="{% url 'bird_list' %}" class="btn btn-primary">View Sightings</a>
+                {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock %}
