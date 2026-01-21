@@ -18,7 +18,7 @@ class Bird(models.Model):
         blank=False,
         validators=[alpha_validator]
     )
-    slug = models.SlugField(max_length=200, unique=False, default='')
+    slug = models.SlugField(max_length=200, unique=False, default='', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="creator")
     created_on = models.DateTimeField(auto_now_add=True)

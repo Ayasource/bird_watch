@@ -7,5 +7,5 @@ class BirdForm(forms.ModelForm):
         model = Bird
         fields = ['bird_name', 'bird_count', 'status']
         widgets = {
-            'status': forms.Select(choices=[(0, 'Draft'), (1, 'Published')])
+            'status': forms.Select(choices=[(1, 'Published')])
         }

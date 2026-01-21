@@ -25,12 +25,12 @@ def profile_page(request):
 
 
 @login_required
-def bird_entry(request, slug):
+def bird_entry(request, pk):
     """
     Display an individual bird - only if user owns it
     """
 
-    bird = get_object_or_404(Bird, slug=slug, created_by=request.user)
+    bird = get_object_or_404(Bird, pk=pk, created_by=request.user)
     entries = bird.entries.filter(approved=True)
     entry_count = entries.count()
     bird_form = BirdForm()
@@ -88,16 +88,14 @@ def add_bird(request):
 
 
 @login_required
-def bird_edit(request, slug):
-    bird = get_object_or_404(Bird, slug=slug, created_by=request.user)
+def bird_edit(request, pk):
+    bird = get_object_or_404(Bird, pk=pk, created_by=request.user)
     if request.method == "POST":
         form = BirdForm(request.POST, instance=bird)
         if form.is_valid():
-            updated = form.save(commit=False)
-            updated.slug = slugify(updated.bird_name)
-            updated.save()
+            updated = form.save()
             messages.success(request, "Bird updated.")
-            return HttpResponseRedirect(reverse("bird_entry", args=[updated.slug]))
+            return HttpResponseRedirect(reverse("bird_entry", args=[updated.pk]))
     else:
         form = BirdForm(instance=bird)
 
@@ -108,8 +106,8 @@ def bird_edit(request, slug):
 
 
 @login_required
-def bird_delete(request, slug):
-    bird = get_object_or_404(Bird, slug=slug, created_by=request.user)
+def bird_delete(request, pk):
+    bird = get_object_or_404(Bird, pk=pk, created_by=request.user)
     if request.method == "POST":
         bird.delete()
         messages.success(request, "Bird deleted.")

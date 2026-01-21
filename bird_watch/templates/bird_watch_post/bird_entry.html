@@ -20,8 +20,8 @@
 </div>
 {% if user.is_authenticated and user == bird.created_by %}
 <div class="mb-3">
-    <a class="btn btn-outline-primary" href="{% url 'bird_edit' bird.slug %}">Edit</a>
-    <form method="post" action="{% url 'bird_delete' bird.slug %}" class="d-inline">
+    <a class="btn btn-outline-primary" href="{% url 'bird_edit' bird.pk %}">Edit</a>
+    <form method="post" action="{% url 'bird_delete' bird.pk %}" class="d-inline">
         {% csrf_token %}
         <button type="submit" class="btn btn-outline-danger">Delete</button>
     </form>

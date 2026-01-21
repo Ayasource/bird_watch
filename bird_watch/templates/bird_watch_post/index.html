@@ -18,7 +18,7 @@
                                     <p class="creator">Bird Counted: {{ bird.bird_count }}</p>
                                 </div>
                             </div>
-                            <a href="{% url 'bird_entry' bird.slug %}" class="entry-link">
+                            <a href="{% url 'bird_entry' bird.pk %}" class="entry-link">
                                 <h2 class="card-title">{{ bird.bird_name }}</h2>
                             </a>
 
