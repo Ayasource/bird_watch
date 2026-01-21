@@ -131,3 +131,8 @@ def user_bird_list(request):
     return render(request, "bird_watch_post/index.html", {
         "birds": user_birds
     })
+
+
+@login_required
+def user_home(request):
+    return render(request, "bird_watch_post/user_home.html")

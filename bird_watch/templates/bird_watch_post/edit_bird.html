@@ -5,10 +5,14 @@
   <div class="row">
     <div class="col-md-8 offset-md-2">
       <h1>Edit Bird</h1>
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Update {{ bird.bird_name }}?</h4>
+        <p>Are you sure you want to change this?</p>
+      </div>
       <form method="post">
         {% csrf_token %}
         {{ bird_form|crispy }}
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-danger">Yes, Update</button>
         <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
       </form>
     </div>
