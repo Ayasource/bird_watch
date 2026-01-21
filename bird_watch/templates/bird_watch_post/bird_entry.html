@@ -50,54 +50,7 @@
             <hr>
         </div>
     </div>
-    <!-- Displaying Entries -->
-    <div class="row">
-        <div class="col-md-8 card mb-4 mt-3">
-            <h3>Entries:</h3>
-            <div class="card-body">
-                <!-- We want a for loop inside the empty control tags
-          to iterate through each entry in entries -->
-                {% for entry in entries %}
-                <div
-                    class="p-2 comments {% if not entry.approved and entry.user == user %}faded{% elif not entry.approved %} d-none{% endif %}">
-                    <p class="font-weight-bold">
-                        {{ entry.user }}
-                        <span class="font-weight-normal">
-                            {{ entry.created_on }}
-                        </span> wrote:
-                    </p>
-                    <div id="entry{{ entry.id }}">
-                        {{ entry.body | linebreaks }}
-                    </div>
-                    {% if not entry.approved and entry.user == user %}
-                    <p class="approval">
-                        This entry is awaiting approval
-                    </p>
-                    {% endif %}
-                </div>
-                <!-- Our for loop ends here -->
-                {% endfor %}
-            </div>
-        </div>
 
-        <!-- Creating New Bird (only if logged in) -->
-        <div class="col-md-4 card mb-4 mt-3">
-            <div class="card-body">
-                {% if user.is_authenticated %}
-                <h3>Add a bird</h3>
-                <p>Posting as: {{ user.username }}</p>
-                <form id="birdForm" method="post" style="margin-top: 1.3em;">
-                    {% csrf_token %}
-                    {{ bird_form | crispy }}
-                    <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
-                </form>
-                {% else %}
-                <p>Log in to add a bird entry</p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
