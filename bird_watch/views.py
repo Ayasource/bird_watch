@@ -117,8 +117,10 @@ def bird_delete(request, pk):
 
 def home_page(request):
     """
-    Display the static home page
+    Display the static home page or redirect authenticated users to user_home
     """
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('user_home'))
     return render(request, "bird_watch_post/home.html")
 
 

@@ -30,8 +30,6 @@
                 <h5 class="card-title">Bird Sightings!</h5>
                 <p class="card-text">Add new birds and view your current ones.</p>
                 {% if user.is_authenticated %}
-                <a href="{% url 'add_bird' %}" class="btn btn-primary me-2">Add Bird</a>
-                <a href="{% url 'bird_list' %}" class="btn btn-primary">View Sightings</a>
                 {% else %}
                 <a href="{% url 'user_home' %}" class="btn btn-primary">Login</a>
                 {% endif %}
