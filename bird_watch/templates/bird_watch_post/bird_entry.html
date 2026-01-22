@@ -12,45 +12,11 @@
                 <p>Seen by {{ bird.created_by }} on {{ bird.date }}</p>
                 <p>Count: {{ bird.bird_count }}</p>
             </div>
-            <div class="d-none d-md-block col-md-6 masthead-image">
-                <img src="{% static 'images/default.jpg' %}" class="scale" alt="Bird Image">
-            </div>
         </div>
     </div>
 </div>
-{% if user.is_authenticated and user == bird.created_by %}
-<div class="mb-3">
-    <a class="btn btn-outline-primary" href="{% url 'bird_edit' bird.pk %}">Edit</a>
-    <form method="post" action="{% url 'bird_delete' bird.pk %}" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-outline-danger">Delete</button>
-    </form>
-</div>
-{% endif %}
-<div class="container">
-    <div class="row">
-        <div class="col card mb-4  mt-3 left  top">
-            <div class="card-body">
-                <!-- The post content goes inside the card-text. -->
-                <!-- Use the | safe filter inside the template tags -->
-                <p class="card-text">
-                    {{ post.content | safe }}
-                </p>
-            </div>
-        </div>
-    </div>
-    <!-- Displaying count of entries -->
-    <div class="row">
-        <div class="col-12">
-            <strong class="text-secondary">
-                <i class="far fa-comments"></i> {{ entry_count }}
-            </strong>
-        </div>
-        <div class="col-12">
-            <hr>
-        </div>
-    </div>
 
+   
 
 
 
