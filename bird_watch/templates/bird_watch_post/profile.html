@@ -12,7 +12,7 @@
     {% for bird in user_birds %}
     <div class="card mb-3">
         <div class="card-body">
-            <h5 class="card-title">{{ bird.bird_name }}</h5>
+            <h3 class="card-title">{{ bird.bird_name }}</h3>
             <p>Count: {{ bird.bird_count }}</p>
             <p>Date: {{ bird.date }}</p>
             <small>Status: {% if bird.status == 1 %}Published{% else %}Draft{% endif %}</small>

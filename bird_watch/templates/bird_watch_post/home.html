@@ -30,12 +30,12 @@
                 <h5 class="card-title">Bird Sightings!</h5>
                 <p class="card-text">Add new birds and view your current ones.</p>
                 {% if user.is_authenticated %}
+                <h3 class="card-title">{{ bird.bird_name }}</h3>
                 {% else %}
                 <a href="{% url 'user_home' %}" class="btn btn-primary">Login</a>
                 {% endif %}
             </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}
