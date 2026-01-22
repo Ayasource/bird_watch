@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load account %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock head_title %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1 class="mb-3">{% trans "Sign Up" %}</h1>
+      <p class="mb-4">
+        {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+      </p>
+
+      <form id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% for field in form %}
+          <div class="mb-3">
+            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger small">
+                {{ field.errors }}
+              </div>
+            {% endif %}
+            {% if field.help_text %}
+              <div class="form-text">
+                {{ field.help_text|safe }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+        {% endif %}
+
+        <button class="btn btn-primary" type="submit">
+          {% trans "Sign Up" %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
