@@ -30,7 +30,7 @@
                 <p class="card-text">Start recording the birds spot!</p>
                 {% if user.is_authenticated %}
                 <a href="{% url 'add_bird' %}" class="btn btn-primary me-2">Add Bird</a>
-                <a href="{% url 'profile' %}" class="btn btn-primary">See Your Bird Sightings!</a>
+                <a href="{% url 'profile' %}" class="btn btn-primary">Edit Your Bird Sightings!</a>
                 {% else %}
                 
                 {% endif %}
