@@ -10,30 +10,31 @@
         </div>
     </div>
 
-
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Make your Profile</h5>
-                <p class="card-text">Start recording your bird sightings today!</p>
-                {% if user.is_authenticated %}
-                <a href="{% url 'profile' %}" class="btn btn-primary">See Your Bird List</a>
-                {% else %}
-                <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
-                {% endif %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Make your Profile</h2>
+                    <p class="card-text">Start recording your bird sightings today!</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="btn btn-primary">See Your Bird List</a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Bird Sightings!</h5>
-                <p class="card-text">Add new birds and view your current ones.</p>
-                {% if user.is_authenticated %}
-                <h3 class="card-title">{{ bird.bird_name }}</h3>
-                {% else %}
-                <a href="{% url 'user_home' %}" class="btn btn-primary">Login</a>
-                {% endif %}
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Bird Sightings!</h2>
+                    <p class="card-text">Add new birds and view your current ones.</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="btn btn-primary">View Sightings</a>
+                    {% else %}
+                    <a href="{% url 'account_login' %}" class="btn btn-primary">Login</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
