@@ -1,11 +1,18 @@
 const editButtons = document.getElementsByClassName("btn-edit");
-const entryText = document.getElementsById("id_body");
-const birdForm = document.getElementsById("birdForm");
-const submitButton = document.getElementsById("submitButton");
+const entryText = document.getElementById("id_body");
+const birdForm = document.getElementById("birdForm");
+const submitButton = document.getElementById("submitButton");
 
-const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
 const deleteButtons = document.getElementsByClassName("btn-delete");
 const deleteConfirm = document.getElementById("deleteConfirm");
+
+let deleteModal; // Declare without initializing
+
+// Initialize modal only if element exists
+const deleteModalElement = document.getElementById("deleteModal");
+if (deleteModalElement) {
+  deleteModal = new bootstrap.Modal(deleteModalElement);
+}
 
 /**
 Initializes edit functionality for the provided edit buttons.
@@ -19,13 +26,14 @@ For each button in the `editButtons` collection:
 */
 for (let button of editButtons) {
   button.addEventListener("click", (e) => {
-     let entryId = e.target.getAttribute("entry_id");
-     let entryContent = document.getElementById(`entry${entryId}`).innerText; 
-     entryText.value = entryContent;
-     submitButton.innerText = "Update";
-     entryForm.setAttribute("action", `edit_entry/${entryId}`);
+    let entryId = e.target.getAttribute("entry_id");
+    let entryContent = document.getElementById(`entry${entryId}`).innerText;
+    entryText.value = entryContent;
+    submitButton.innerText = "Update";
+    birdForm.setAttribute("action", `edit_entry/${entryId}`);
   });
 }
+
 /**
 Initializes deletion functionality for the provided delete buttons.
 
@@ -37,10 +45,12 @@ For each button in the `deletetButtons` collection:
 
 for (let button of deleteButtons) {
   button.addEventListener("click", (e) => {
-     let entryId = e.target.getAttribute("entry_id");
-     deleteConfirm.href = `delete_comment/${entryId}`;
-     deleteModal.show(); 
+    let entryId = e.target.getAttribute("entry_id");
+    deleteConfirm.href = `delete_comment/${entryId}`;
+    if (deleteModal) {
+      deleteModal.show();
+    }
   });
 }
-         
+
 

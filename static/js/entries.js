@@ -3,9 +3,16 @@ const entryText = document.getElementById("id_body");
 const birdForm = document.getElementById("birdForm");
 const submitButton = document.getElementById("submitButton");
 
-const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
 const deleteButtons = document.getElementsByClassName("btn-delete");
 const deleteConfirm = document.getElementById("deleteConfirm");
+
+let deleteModal; // Declare without initializing
+
+// Initialize modal only if element exists
+const deleteModalElement = document.getElementById("deleteModal");
+if (deleteModalElement) {
+  deleteModal = new bootstrap.Modal(deleteModalElement);
+}
 
 /**
 Initializes edit functionality for the provided edit buttons.
@@ -40,7 +47,9 @@ for (let button of deleteButtons) {
   button.addEventListener("click", (e) => {
     let entryId = e.target.getAttribute("entry_id");
     deleteConfirm.href = `delete_comment/${entryId}`;
-    deleteModal.show();
+    if (deleteModal) {
+      deleteModal.show();
+    }
   });
 }
 
