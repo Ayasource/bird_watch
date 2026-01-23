@@ -9,6 +9,7 @@ from .forms import BirdForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
+from django.core.paginator import Paginator
 
 
 class BirdEntry(generic.ListView):
@@ -130,9 +131,14 @@ def user_bird_list(request):
     Display only the logged-in user's birds
     """
     user_birds = Bird.objects.filter(created_by=request.user)
+    paginator = Paginator(user_birds, 6)  # Show 6 birds per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     return render(request, "bird_watch_post/bird_entry.html", {
         "bird": None,  # Set to None so the template shows empty state if no birds
-        "birds": user_birds
+        "birds": page_obj,
+        "page_obj": page_obj,
     })
 
 
