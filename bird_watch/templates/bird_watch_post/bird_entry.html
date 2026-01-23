@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% if birds %}
-    {% if bird %}
+    {% for bird in birds %}
     <div class="masthead">
         <div class="container">
             <div class="row g-0">
@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    {% endif %}
+    {% endfor %}
 {% else %}
 <div class="container mt-5">
     <div class="text-center">
