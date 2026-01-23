@@ -96,7 +96,7 @@ def bird_edit(request, pk):
         if form.is_valid():
             updated = form.save()
             messages.success(request, "Bird updated.")
-            return HttpResponseRedirect(reverse("bird_entry", args=[updated.pk]))
+            return HttpResponseRedirect(reverse("user_home"))
     else:
         form = BirdForm(instance=bird)
 
