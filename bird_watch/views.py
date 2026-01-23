@@ -130,7 +130,8 @@ def user_bird_list(request):
     Display only the logged-in user's birds
     """
     user_birds = Bird.objects.filter(created_by=request.user)
-    return render(request, "bird_watch_post/index.html", {
+    return render(request, "bird_watch_post/bird_entry.html", {
+        "bird": None,  # Set to None so the template shows empty state if no birds
         "birds": user_birds
     })
 
