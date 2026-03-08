@@ -43,7 +43,8 @@ def bird_entry(request, pk):
             new_bird.created_by = request.user
             new_bird.slug = slugify(new_bird.bird_name)
             new_bird.save()
-            messages.add_message(request, messages.SUCCESS, 'Bird added successfully!')
+            messages.add_message(request, messages.SUCCESS,
+                                 'Bird added successfully!')
             bird_form = BirdForm()
 
     return render(request, "bird_watch_post/bird_entry.html", {
@@ -80,11 +81,12 @@ def add_bird(request):
             bird.created_by = request.user
             bird.slug = slugify(bird.bird_name)
             bird.save()
-            messages.add_message(request, messages.SUCCESS, 'Bird added successfully!')
+            messages.add_message(request, messages.SUCCESS,
+                                 'Bird added successfully!')
             return HttpResponseRedirect(reverse('home'))
     else:
         bird_form = BirdForm()
- 
+
     return render(request, "bird_watch_post/add_bird.html", {"bird_form": bird_form})
 
 
@@ -134,7 +136,7 @@ def user_bird_list(request):
     paginator = Paginator(user_birds, 6)  # Show 6 birds per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     return render(request, "bird_watch_post/bird_entry.html", {
         "bird": None,  # Set to None so the template shows empty state if no birds
         "birds": page_obj,

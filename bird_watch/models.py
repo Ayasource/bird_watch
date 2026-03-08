@@ -13,14 +13,16 @@ alpha_validator = RegexValidator(
 
 class Bird(models.Model):
     bird_name = models.CharField(
-        max_length=200, 
-        null=False, 
+        max_length=200,
+        null=False,
         blank=False,
         validators=[alpha_validator]
     )
-    slug = models.SlugField(max_length=200, unique=False, default='', blank=True)
+    slug = models.SlugField(
+        max_length=200, unique=False, default='', blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="creator")
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="creator")
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=1)
     bird_count = models.PositiveIntegerField(unique=False)
@@ -34,10 +36,12 @@ class Bird(models.Model):
 
 
 class Entry(models.Model):
-    bird = models.ForeignKey(Bird, on_delete=models.CASCADE, related_name="entries")
+    bird = models.ForeignKey(
+        Bird, on_delete=models.CASCADE, related_name="entries")
     body = models.CharField(max_length=200)
     bird_count = models.PositiveIntegerField(default=1)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="entries")
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="entries")
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
 

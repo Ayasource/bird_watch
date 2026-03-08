@@ -4,9 +4,11 @@ from django.urls import reverse
 from .models import Bird, Entry
 from .forms import BirdForm
 
+
 class BirdModelTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='testpass123')
+        self.user = User.objects.create_user(
+            username='testuser', password='testpass123')
         self.bird = Bird.objects.create(
             bird_name='Blue Tit',
             created_by=self.user,
@@ -27,7 +29,8 @@ class BirdModelTest(TestCase):
 class BirdViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='testuser', password='testpass123')
+        self.user = User.objects.create_user(
+            username='testuser', password='testpass123')
         self.bird = Bird.objects.create(
             bird_name='Robin',
             created_by=self.user,
