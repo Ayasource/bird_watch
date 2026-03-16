@@ -1,12 +1,10 @@
-from urllib import request
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from requests import post
+from django.urls import reverse
 from .models import Bird, Entry
 from .forms import BirdForm
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.core.paginator import Paginator
@@ -21,8 +19,10 @@ class BirdEntry(generic.ListView):
 
 
 def profile_page(request):
-    user = get_object_or_404(User, user=request.user)
-    entries = user.creator.all()
+    entries = Entry.objects.filter(created_by=request.user)
+    return render(request, "bird_watch_post/profile.html", {
+        "entries": entries,
+    })
 
 
 @login_required
@@ -87,7 +87,11 @@ def add_bird(request):
     else:
         bird_form = BirdForm()
 
-    return render(request, "bird_watch_post/add_bird.html", {"bird_form": bird_form})
+    return render(
+        request,
+        "bird_watch_post/add_bird.html",
+        {"bird_form": bird_form}
+    )
 
 
 @login_required
@@ -96,7 +100,7 @@ def bird_edit(request, pk):
     if request.method == "POST":
         form = BirdForm(request.POST, instance=bird)
         if form.is_valid():
-            updated = form.save()
+            form.save()
             messages.success(request, "Bird updated.")
             return HttpResponseRedirect(reverse("user_home"))
     else:
@@ -138,7 +142,7 @@ def user_bird_list(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, "bird_watch_post/bird_entry.html", {
-        "bird": None,  # Set to None so the template shows empty state if no birds
+        "bird": None,
         "birds": page_obj,
         "page_obj": page_obj,
     })
@@ -146,4 +150,13 @@ def user_bird_list(request):
 
 @login_required
 def user_home(request):
-    return render(request, "bird_watch_post/user_home.html")
+    """
+    Display the user's home page with their birds and entries
+    """
+    user_birds = Bird.objects.filter(created_by=request.user)
+    user_entries = Entry.objects.filter(created_by=request.user)
+
+    return render(request, "bird_watch_post/user_home.html", {
+        "user_birds": user_birds,
+        "user_entries": user_entries,
+    })

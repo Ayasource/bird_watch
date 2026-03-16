@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from .models import Bird, Entry
+from .models import Bird
 from .forms import BirdForm
 
 
@@ -22,7 +22,8 @@ class BirdModelTest(TestCase):
         self.assertEqual(self.bird.created_by.username, 'testuser')
 
     def test_bird_str_method(self):
-        expected = f"testuser saw 2 Blue Tit(s) on {self.bird.date.strftime('%Y-%m-%d')}"
+        date_str = self.bird.date.strftime('%Y-%m-%d')
+        expected = f"testuser saw 2 Blue Tit(s) on {date_str}"
         self.assertEqual(str(self.bird), expected)
 
 
@@ -51,6 +52,7 @@ class BirdViewsTest(TestCase):
             'bird_count': 3,
             'status': 1
         }, follow=True)  # Follow the redirect
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Bird.objects.count(), 2)
         self.assertTrue(Bird.objects.filter(bird_name='Sparrow').exists())
         self.assertEqual(Bird.objects.get(bird_name='Sparrow').bird_count, 3)

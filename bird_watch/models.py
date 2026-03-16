@@ -32,7 +32,9 @@ class Bird(models.Model):
         ordering = ["-created_on"]
 
     def __str__(self):
-        return f"{self.created_by} saw {self.bird_count} {self.bird_name}(s) on {self.date.strftime('%Y-%m-%d')}"
+        date_str = self.date.strftime('%Y-%m-%d')
+        return (f"{self.created_by} saw {self.bird_count} "
+                f"{self.bird_name}(s) on {date_str}")
 
 
 class Entry(models.Model):
