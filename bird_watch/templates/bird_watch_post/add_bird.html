@@ -10,7 +10,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{ bird_form | crispy }}
-                <button type="submit" class="btn btn">Add Bird</button>
+                <button type="submit" class="btn btn-primary">Add Bird</button>
                 <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
