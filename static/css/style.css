@@ -6,11 +6,7 @@ body {
     font-family: Lato, sans-serif;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #4A4A4F;
-}
-
-.red-o {
-    color: #E84610;
+    color: #923e08;
 }
 
 .thin {
@@ -22,7 +18,7 @@ body {
 }
 
 .dark-bg {
-    background-color: #445261;
+    background-color: #923e08;
 }
 
 .main-bg {
@@ -67,7 +63,7 @@ body {
 }
 
 .masthead-text {
-    background-color: #445261;
+    background-color: #923e08;
     color: white;
     position: relative;
 }
@@ -84,14 +80,14 @@ body {
     right: 90%;
     height: 100%;
     width: 150%;
-    background: #445261;
+    background: #923e08;
     transform: skew(15deg);
     z-index: 100;
 }
 
 .post-link {
     text-decoration: none;
-    color: #445261;
+    color: #923e08;
 }
 
 .post-link:hover,
@@ -111,18 +107,18 @@ body {
 
 .btn-signup,
 .btn-edit {
-    background-color: #188181;
+    background-color: #962e3b;
     color: #fff;
 }
 
 .btn-signup:hover,
 .btn-signup:active {
     background-color: #fff;
-    color: #23BBBB;
+    color: #962e3b;
 }
 
 .link {
-    color: #23BBBB;
+    color: #962e3b;
     text-decoration: none;
 }
 
@@ -133,19 +129,19 @@ body {
 }
 
 .btn-like {
-    color: #e846109e;
+    color: #962e3b;
     border: none;
     background: transparent;
 }
 
 .btn-delete {
     color: #fff;
-    background: #e846109e;
+    background: #962e3b;
 }
 
 .btn-like:hover,
 .btn-like:active {
-    color: #e846109e;
+    color: #962e3b;
     background: transparent;
     border: none;
 }
