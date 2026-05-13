@@ -2,3 +2,4 @@
 env.py
 __pycache__
 bird_watch/fixtures/
+db.sqlite3
