@@ -13,7 +13,6 @@ class BirdModelTest(TestCase):
             bird_name='Blue Tit',
             created_by=self.user,
             bird_count=2,
-            status=1
         )
 
     def test_bird_creation(self):
@@ -35,8 +34,7 @@ class BirdViewsTest(TestCase):
         self.bird = Bird.objects.create(
             bird_name='Robin',
             created_by=self.user,
-            bird_count=1,
-            status=1
+            bird_count=1
         )
 
     def test_add_bird_view_get(self):
@@ -49,8 +47,7 @@ class BirdViewsTest(TestCase):
         self.client.login(username='testuser', password='testpass123')
         response = self.client.post(reverse('add_bird'), {
             'bird_name': 'Sparrow',
-            'bird_count': 3,
-            'status': 1
+            'bird_count': 3
         }, follow=True)  # Follow the redirect
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Bird.objects.count(), 2)
@@ -72,8 +69,7 @@ class BirdFormTest(TestCase):
     def test_bird_form_valid_data(self):
         form = BirdForm(data={
             'bird_name': 'Woodpecker',
-            'bird_count': 1,
-            'status': 1
+            'bird_count': 1
         })
         self.assertTrue(form.is_valid())
 
@@ -81,6 +77,5 @@ class BirdFormTest(TestCase):
         form = BirdForm(data={
             'bird_name': '',
             'bird_count': 1,
-            'status': 1
         })
         self.assertFalse(form.is_valid())

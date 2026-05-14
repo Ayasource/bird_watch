@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
-STATUS = ((1, "Published"),)
-
 
 alpha_validator = RegexValidator(
     regex=r'^[a-zA-Z\s]+$',
@@ -24,7 +22,6 @@ class Bird(models.Model):
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="creator")
     created_on = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS, default=1)
     bird_count = models.PositiveIntegerField(unique=False)
     updated_on = models.DateTimeField(auto_now=True)
 

@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 
 class BirdEntry(generic.ListView):
     model = Bird
-    queryset = Bird.objects.filter(status=1)
+    queryset = Bird.objects.order_by("-created_on")
     context_object_name = "birds"
     template_name = "bird_watch_post/index.html"
     paginate_by = 6
